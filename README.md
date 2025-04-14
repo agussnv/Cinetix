@@ -1,7 +1,5 @@
 # Cinetix - Portal de Cinema
 
-## Desenvolupador: Agustín Enzo Noviello
-
 Aquest projecte és un portal per a un cinema que integra tant un panell d'administració com un apartat per a clients.  
 El panell d'administració permet gestionar informació sobre vendes i administrar sessions (crear, editar i eliminar).
 L'apartat per a clients ofereix la visualització de sessions actives i la possibilitat de comprar entrades, enviant posteriorment un correu amb un PDF de les entrades.
