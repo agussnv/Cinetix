@@ -1,0 +1,55 @@
+  services:
+    db:
+      image: mysql:8.2.0
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: cinetix
+        MYSQL_USER: user
+        MYSQL_PASSWORD: user
+      ports:
+        - 3306:3306
+      volumes:
+        - ./back/mysql_data:/var/lib/mysql
+      command: --host_cache_size=0
+
+    adminer:
+      image: adminer
+      restart: always
+      depends_on:
+        - db
+      ports:
+        - 9090:8080
+
+    laravel:
+      build: ./back/laravel
+      ports:
+        - 8000:8000
+      volumes:
+        - ./back/laravel:/var/www/html
+      working_dir: /var/www/html
+      depends_on:
+        - db
+      command: ./entrypoint.sh
+
+    node:
+      image: node:current
+      restart: always
+      depends_on:
+        - db
+      ports:
+        - 3001:3001
+      volumes:
+        - ./back/webSockets:/home/node/app
+      working_dir: /home/node/app
+      command: bash -c "npm install && node --watch index.js"
+
+    next:
+      build: ./front/next
+      ports:
+        - 3000:3000
+      volumes:
+        - ./front/next:/app #en produccion no se debe hacer esto, se debe hacer un copy
+        - /app/node_modules
+      working_dir: /app/
+      command: sh -c "npm install && npm run dev -- --hostname 0.0.0.0"

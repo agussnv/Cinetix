@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^(.*)$ http://cinetix.daw.inspedralbes.cat:29000/$1 [L]
